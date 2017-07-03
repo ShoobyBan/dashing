@@ -185,6 +185,12 @@ func (s *Server) NewRouter() http.Handler {
 	r.Post("/dashboards/:id", s.DashboardEventHandler)
 	r.Get("/views/:widget", s.WidgetHandler)
 	r.Post("/widgets/:id", s.WidgetEventHandler)
+
+	// Handle static files
+	r.Get("/public/*", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./public/"+vestigo.Param(r, "_name"))
+	})
+
 	return r
 }
 
