@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"time"
 
+	"sync"
+
 	"gopkg.in/husobee/vestigo.v1"
 	"gopkg.in/karlseguin/gerb.v0"
 )
@@ -17,6 +19,7 @@ type Server struct {
 	dev     bool
 	webroot string
 	broker  *Broker
+	mutex   sync.RWMutex
 }
 
 func param(r *http.Request, name string) string {
@@ -75,6 +78,7 @@ func (s *Server) EventsHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case event := <-events:
+			s.mutex.Lock()
 			data := event.Body
 			data["id"] = event.ID
 			data["updatedAt"] = int32(time.Now().Unix())
@@ -82,6 +86,7 @@ func (s *Server) EventsHandler(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				continue
 			}
+			s.mutex.Unlock()
 			if event.Target != "" {
 				fmt.Fprintf(w, "event: %s\n", event.Target)
 			}

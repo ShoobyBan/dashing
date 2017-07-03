@@ -41,12 +41,10 @@ func (b *Broker) Start() {
 				for _, e := range b.cache {
 					s <- e
 				}
-				// log.Println("Added new client")
 			case s := <-b.defunctClients:
 				// A client has detached and we want to
 				// stop sending them events.
 				delete(b.clients, s)
-				// log.Println("Removed client")
 			case event := <-b.events:
 				b.cache[event.ID] = event
 				// There is a new event to send. For each
@@ -55,7 +53,6 @@ func (b *Broker) Start() {
 				for s := range b.clients {
 					s <- event
 				}
-				// log.Printf("Broadcast event to %d clients", len(b.clients))
 			}
 		}
 	}()

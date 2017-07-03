@@ -2,12 +2,13 @@ package dashing
 
 // A Job does periodic work and sends events to a channel.
 type Job interface {
-	Work(send chan *Event)
+	Work(config *Config, send chan *Event)
 }
 
 // A Worker contains a collection of jobs.
 type Worker struct {
 	broker   *Broker
+	config   *Config
 	registry []Job
 }
 
@@ -22,14 +23,15 @@ func (w *Worker) Register(j Job) {
 // Start all jobs.
 func (w *Worker) Start() {
 	for _, j := range w.registry {
-		go j.Work(w.broker.events)
+		go j.Work(w.config, w.broker.events)
 	}
 }
 
 // NewWorker returns a Worker instance.
-func NewWorker(b *Broker) *Worker {
+func NewWorker(b *Broker, c *Config) *Worker {
 	return &Worker{
 		broker:   b,
+		config:   c,
 		registry: append([]Job(nil), jobs...),
 	}
 }
