@@ -45,9 +45,9 @@ func (d *Dashing) Start() *Dashing {
 }
 
 // NewDashing sets up the event broker, workers and webservice.
-func NewDashing(cfg *Config) *Dashing {
+func NewDashing() *Dashing {
 	broker := NewBroker()
-	worker := NewWorker(broker, cfg)
+	worker := NewWorker(broker)
 	server := NewServer(broker)
 
 	if os.Getenv("WEBROOT") != "" {
