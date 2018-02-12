@@ -93,7 +93,6 @@ func (s *Server) EventsHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "data: %s\n\n", json)
 			f.Flush()
 		case <-closer:
-			log.Println("Closing connection")
 			return
 		}
 	}
