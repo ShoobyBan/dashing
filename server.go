@@ -176,7 +176,7 @@ func (s *Server) WidgetEventHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // NewRouter creates a router with defaults.
-func (s *Server) NewRouter() http.Handler {
+func (s *Server) NewRouter(gets, posts map[string]http.HandlerFunc) *vestigo.Router {
 	r := vestigo.NewRouter()
 	r.Get("/", s.IndexHandler)
 	r.Get("/events", s.EventsHandler)
@@ -185,6 +185,14 @@ func (s *Server) NewRouter() http.Handler {
 	r.Post("/dashboards/:id", s.DashboardEventHandler)
 	r.Get("/views/:widget", s.WidgetHandler)
 	r.Post("/widgets/:id", s.WidgetEventHandler)
+
+	for route, handler := range gets {
+		r.Get(route, handler)
+	}
+
+	for route, handler := range posts {
+		r.Post(route, handler)
+	}
 
 	// Handle static files
 	r.Get("/public/*", func(w http.ResponseWriter, r *http.Request) {

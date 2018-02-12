@@ -35,7 +35,23 @@ func (d *Dashing) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (d *Dashing) Start() *Dashing {
 	if !d.started {
 		if d.Router == nil {
-			d.Router = d.Server.NewRouter()
+			d.Router = d.Server.NewRouter(
+				map[string]http.HandlerFunc{},
+				map[string]http.HandlerFunc{},
+			)
+		}
+		d.Broker.Start()
+		d.Worker.Start()
+		d.started = true
+	}
+	return d
+}
+
+// StartWiths actives the broker and workers with custom get and post handlers
+func (d *Dashing) StartWith(gets, posts map[string]http.HandlerFunc) *Dashing {
+	if !d.started {
+		if d.Router == nil {
+			d.Router = d.Server.NewRouter(gets, posts)
 		}
 		d.Broker.Start()
 		d.Worker.Start()
