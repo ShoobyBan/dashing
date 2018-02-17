@@ -31,7 +31,7 @@ func (d *Dashing) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	d.Router.ServeHTTP(w, r)
 }
 
-// Start actives the broker and workers.
+// Start activates the broker and workers.
 func (d *Dashing) Start() *Dashing {
 	if !d.started {
 		if d.Router == nil {
@@ -47,7 +47,7 @@ func (d *Dashing) Start() *Dashing {
 	return d
 }
 
-// StartWiths actives the broker and workers with custom get and post handlers
+// StartWith activates the broker and workers with custom get and post handlers
 func (d *Dashing) StartWith(gets, posts map[string]http.HandlerFunc) *Dashing {
 	if !d.started {
 		if d.Router == nil {
