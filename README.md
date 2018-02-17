@@ -1,6 +1,8 @@
 dashing-go
 ==========
 
+Update: this is a somewhat maintained fork of dashing-go focusing on extending and refactoring 
+
 A [Go][1] port of [shopify/dashing][2]. Now frameworkless!
 
 To generate a dashboard using this library, please use the [Yeoman dashing-go generator][3].
