@@ -1,7 +1,7 @@
 dashing-go
 ==========
 
-Update: this is a somewhat maintained fork of dashing-go focusing on extending and refactoring 
+Update: this is a somewhat maintained fork of dashing-go focusing on extending and refactoring. Renamed to conform go naming standards.
 
 A [Go][1] port of [shopify/dashing][2]. Now frameworkless!
 
