@@ -11,9 +11,9 @@ For a live demo, here's the default [sample dashboard][4].
 
 ### Current Status
 
-[![Documentation](https://godoc.org/github.com/shoobyban/dashing-go?status.svg)](http://godoc.org/github.com/shoobyban/dashing-go)
-[![Go Report Card](https://goreportcard.com/badge/github.com/shoobyban/dashing-go)](https://goreportcard.com/report/github.com/shoobyban/dashing-go)
-[![Build Status](https://travis-ci.org/ShoobyBan/dashing-go.svg?branch=master)](https://travis-ci.org/ShoobyBan/dashing-go)
+[![Documentation](https://godoc.org/github.com/shoobyban/dashing?status.svg)](http://godoc.org/github.com/shoobyban/dashing)
+[![Go Report Card](https://goreportcard.com/badge/github.com/shoobyban/dashing)](https://goreportcard.com/report/github.com/shoobyban/dashing)
+[![Build Status](https://travis-ci.org/ShoobyBan/dashing.svg?branch=master)](https://travis-ci.org/ShoobyBan/dashing)
 
 * All endpoints have been ported over! Full functionality is available.
 * For an example of how to write jobs in dashing-go, please refer to the [demo dashboard source][5].
