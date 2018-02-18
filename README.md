@@ -1,5 +1,5 @@
-dashing-go
-==========
+dashing
+=======
 
 Update: this is a somewhat maintained fork of dashing-go focusing on extending and refactoring. Renamed to conform go naming standards.
 
