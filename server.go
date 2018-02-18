@@ -107,7 +107,6 @@ func (s *Server) DashboardHandler(w http.ResponseWriter, r *http.Request) {
 		dashboard = fmt.Sprintf("events%s", param(r, "suffix"))
 	}
 	path := fmt.Sprintf("%s/dashboards/%s.gerb", s.webroot, dashboard)
-	log.Println(path)
 	template, err := gerb.ParseFile(true, path, s.webroot+"/dashboards/layout.gerb")
 
 	if err != nil {
@@ -147,7 +146,6 @@ func (s *Server) WidgetHandler(w http.ResponseWriter, r *http.Request) {
 	widget := param(r, "widget")
 	widget = widget[0 : len(widget)-5]
 	path := fmt.Sprintf("%s/widgets/%s/%s.html", s.webroot, widget, widget)
-	log.Println(path)
 	template, err := gerb.ParseFile(true, path)
 
 	if err != nil {
