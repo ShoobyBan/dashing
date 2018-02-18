@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"path"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"sync"
@@ -28,10 +30,10 @@ func param(r *http.Request, name string) string {
 
 // IndexHandler redirects to the default dashboard.
 func (s *Server) IndexHandler(w http.ResponseWriter, r *http.Request) {
-	files, _ := filepath.Glob("dashboards/*.gerb")
+	files, _ := filepath.Glob(s.webroot + "/dashboards/*.gerb")
 
 	for _, file := range files {
-		dashboard := file[11 : len(file)-5]
+		dashboard := strings.TrimSuffix(path.Base(file), path.Ext(file))
 		if dashboard != "layout" {
 			http.Redirect(w, r, fmt.Sprintf("/%s", dashboard), http.StatusTemporaryRedirect)
 			return
@@ -104,7 +106,9 @@ func (s *Server) DashboardHandler(w http.ResponseWriter, r *http.Request) {
 	if dashboard == "" {
 		dashboard = fmt.Sprintf("events%s", param(r, "suffix"))
 	}
-	template, err := gerb.ParseFile(true, fmt.Sprintf("dashboards/%s.gerb", dashboard), "dashboards/layout.gerb")
+	path := fmt.Sprintf("%s/dashboards/%s.gerb", s.webroot, dashboard)
+	log.Println(path)
+	template, err := gerb.ParseFile(true, path, s.webroot+"/dashboards/layout.gerb")
 
 	if err != nil {
 		http.NotFound(w, r)
@@ -142,7 +146,9 @@ func (s *Server) DashboardEventHandler(w http.ResponseWriter, r *http.Request) {
 func (s *Server) WidgetHandler(w http.ResponseWriter, r *http.Request) {
 	widget := param(r, "widget")
 	widget = widget[0 : len(widget)-5]
-	template, err := gerb.ParseFile(true, fmt.Sprintf("widgets/%s/%s.html", widget, widget))
+	path := fmt.Sprintf("%s/widgets/%s/%s.html", s.webroot, widget, widget)
+	log.Println(path)
+	template, err := gerb.ParseFile(true, path)
 
 	if err != nil {
 		log.Printf("%v", err)
@@ -195,17 +201,17 @@ func (s *Server) NewRouter(gets, posts map[string]http.HandlerFunc) *vestigo.Rou
 
 	// Handle static files
 	r.Get("/public/*", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "./public/"+vestigo.Param(r, "_name"))
+		http.ServeFile(w, r, s.webroot+"/public/"+vestigo.Param(r, "_name"))
 	})
 
 	return r
 }
 
 // NewServer creates a Server instance.
-func NewServer(b *Broker) *Server {
+func NewServer(b *Broker, webroot string) *Server {
 	return &Server{
 		dev:     false,
-		webroot: "",
+		webroot: webroot,
 		broker:  b,
 	}
 }

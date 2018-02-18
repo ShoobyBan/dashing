@@ -3,7 +3,6 @@ package dashing
 import (
 	"net/http"
 	"os"
-	"path/filepath"
 )
 
 // An Event contains the widget ID, a body of data,
@@ -61,14 +60,10 @@ func (d *Dashing) StartWith(gets, posts map[string]http.HandlerFunc) *Dashing {
 }
 
 // NewDashing sets up the event broker, workers and webservice.
-func NewDashing() *Dashing {
+func NewDashing(webroot string) *Dashing {
 	broker := NewBroker()
 	worker := NewWorker(broker)
-	server := NewServer(broker)
-
-	if os.Getenv("WEBROOT") != "" {
-		server.webroot = filepath.Clean(os.Getenv("WEBROOT")) + "/"
-	}
+	server := NewServer(broker, webroot)
 
 	if os.Getenv("DEV") != "" {
 		server.dev = true
