@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"os"
 
-	"gopkg.in/gigablah/dashing-go.v1"
-	_ "gopkg.in/gigablah/dashing-go.v1/example/jobs"
+	"github.com/shoobyban/dashing"
+	_ "github.com/shoobyban/dashing/example/jobs"
 )
 
 func tokenAuthMiddleware(h http.Handler) http.Handler {

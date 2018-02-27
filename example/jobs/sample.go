@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"gopkg.in/gigablah/dashing-go.v1"
+	"github.com/shoobyban/dashing"
 )
 
 type sample struct{}
